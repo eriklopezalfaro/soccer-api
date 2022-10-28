@@ -1,16 +1,37 @@
 import pprint as pp
 import requests
+import os, sys
+from dotenv import load_dotenv
 
-url = "https://api-football-v1.p.rapidapi.com/v3/players"
+PLAYER = sys.argv[1]
 
-querystring = {"league":"61","search":"neymar"}
+def configure():
+    load_dotenv()
 
-headers = {
-	"X-RapidAPI-Key": "f1654be039mshb33692f6178cb18p1977bbjsnbd55a7260427",
-	"X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
-}
+def main():
+    configure()
 
-response = requests.request("GET", url, headers=headers, params=querystring).json()
+    url = "https://api-football-v1.p.rapidapi.com/v3/players"
 
-for res in response['response']:
-    pp.pprint(res, indent=3)
+    querystring = {"league":"61","search":PLAYER}
+
+    headers = {
+	    "X-RapidAPI-Key": os.getenv('api_key'),
+	    "X-RapidAPI-Host": "api-football-v1.p.rapidapi.com"
+    }
+
+    try:
+        response = requests.request("GET", url, headers=headers, params=querystring)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        print(e)
+        sys.exit('TERMINATED')
+
+    response = response.json()
+    for res in response['response']:
+        pp.pprint(res, indent=3)
+
+    print(len(response['response']))
+
+if __name__ == '__main__':
+    main()
