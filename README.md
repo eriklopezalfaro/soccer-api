@@ -7,6 +7,6 @@ When you run the 'main.py' file in your terminal, pass in the soccer players nam
 python main.py Messi
 ```
 
-#### An object will return containing player information.
+#### An object will return containing player information...
 
-![Screen shot of result for 'Messi'](Soccer_API/soccer-api.png?raw=true "Result for 'Messi'")
+![Screen shot of result for 'Messi'](./soccer-api.png?raw=true "Result for 'Messi'")
